@@ -1,0 +1,14 @@
+{
+  "name": "drupal/accounts",
+  "type": "drupal-module",
+  "description": "Provides custom entity to store information about accounts (companies) coming from crelate.com",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/accounts",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/accounts",
+    "source": "http://cgit.drupalcode.org/accounts"
+  },
+  "require": { }
+}

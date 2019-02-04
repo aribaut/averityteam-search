@@ -1,0 +1,5 @@
+name: 'Accounts'
+type: module
+description: 'Provides custom entity to store information about accounts (companies) coming from crelate.com'
+core: 8.x
+package: 'Custom'
