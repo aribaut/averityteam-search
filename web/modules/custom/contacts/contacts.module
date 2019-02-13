@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains contacts.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function contacts_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the contacts module.
+    case 'help.page.contacts':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Job seekers present in the Crelate.com platform.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

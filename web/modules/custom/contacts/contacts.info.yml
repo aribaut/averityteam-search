@@ -1,0 +1,5 @@
+name: 'Contacts'
+type: module
+description: 'Job seekers present in the Crelate.com platform.'
+core: 8.x
+package: 'Custom'

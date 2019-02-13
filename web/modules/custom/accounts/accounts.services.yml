@@ -1,0 +1,5 @@
+services:
+  accounts.event_subscriber:
+    class: Drupal\accounts\EventSubscriber\AddressFormatSubscriber
+    tags:
+    - { name: event_subscriber }
