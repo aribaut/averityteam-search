@@ -194,6 +194,10 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
   }
 
   /**
+   * Custom getters and setters for the Account entity.
+   */
+
+  /**
    * {@inheritdoc}
    */
   public function getCrelateId() {
@@ -233,21 +237,18 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
   /**
    * {@inheritdoc}
    */
-  /*
-  public function getAddress() {
+  public function getAddress()
+  {
       return $this->get('address')->value;
   }
-*/
 
   /**
    * {@inheritdoc}
    */
-  /*
   public function setAddress($address) {
       $this->set('address', $address);
       return $this;
   }
-*/
 
   /**
    * {@inheritdoc}
@@ -294,7 +295,7 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
       return $this;
   }
 
-    /**
+  /**
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
@@ -401,112 +402,111 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
         ->setRequired(TRUE)
         ->setReadOnly(TRUE);
 
-      $fields['signed_agreement'] = BaseFieldDefinition::create('boolean')
-          ->setLabel(t('Signed Agreement'))
-          ->setDescription(t('A boolean indicating whether the Account has a signed agreement with Averity.'))
-          ->setRevisionable(TRUE)
-          ->setDefaultValue(TRUE)
-          ->setDisplayOptions('form', [
-              'type' => 'boolean_checkbox',
-              'weight' => -3,
-          ])
-          ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE);
+    $fields['signed_agreement'] = BaseFieldDefinition::create('boolean')
+        ->setLabel(t('Signed Agreement'))
+        ->setDescription(t('Indicates whether the Account has a signed agreement with Averity.'))
+        ->setRevisionable(TRUE)
+        ->setDefaultValue(TRUE)
+        ->setDisplayOptions('form', [
+            'type' => 'boolean_checkbox',
+            'weight' => -3,
+        ])
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayConfigurable('view', TRUE);
 
-      $fields['interviewed_last'] = BaseFieldDefinition::create('datetime')
-          ->setLabel(t('Interviewed Last'))
-          ->setDescription(t('The last recorded date we interviewed that account.'))
-          ->setRevisionable(TRUE)
-          ->setSettings([
-              'datetime_type' => 'date'
-          ])
-          ->setDefaultValue('')
-          ->setDisplayOptions('view', [
-              'label' => 'above',
-              'type' => 'datetime_default',
-              'settings' => [
-                  'format_type' => 'medium',
-              ],
-              'weight' => -4,
-          ])
-          ->setDisplayOptions('form', [
-              'type' => 'datetime_default',
-              'weight' => -4,
-          ])
-          ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE);
-/*
-      $fields['address'] = BaseFieldDefinition::create('address')
-          ->setLabel(t('Address'))
-          ->setSettings(array(
-              'default_value' => array(),
-          ))
-          ->setDisplayOptions('view', array(
-              'label' => 'above',
-              'type' => 'address_default',
-          ))
-          ->setDisplayOptions('form', array(
-              'type' => 'address_default',
-          ))
-          ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE);
-*/
+    $fields['interviewed_last'] = BaseFieldDefinition::create('datetime')
+        ->setLabel(t('Interviewed Last'))
+        ->setDescription(t('The last recorded date we interviewed that account.'))
+        ->setRevisionable(TRUE)
+        ->setSettings([
+            'datetime_type' => 'date'
+        ])
+        ->setDefaultValue('')
+        ->setDisplayOptions('view', [
+            'label' => 'above',
+            'type' => 'datetime_default',
+            'settings' => [
+                'format_type' => 'medium',
+            ],
+            'weight' => -4,
+        ])
+        ->setDisplayOptions('form', [
+            'type' => 'datetime_default',
+            'weight' => -4,
+        ])
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayConfigurable('view', TRUE);
 
-      $fields['url'] = BaseFieldDefinition::create('uri')
-          ->setLabel(t('Crelate Link'))
-          ->setDescription(t('The crelate.com link back to the account default display page.'))
-          ->setSetting('max_length', 2048)
-          ->setSetting('case_sensitive', TRUE)
-          ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE);
+    $fields['address'] = BaseFieldDefinition::create('address')
+        ->setLabel(t('Address'))
+        ->setSettings(array(
+            'default_value' => array(),
+        ))
+        ->setDisplayOptions('view', array(
+            'label' => 'above',
+            'type' => 'address_default',
+        ))
+        ->setDisplayOptions('form', array(
+            'type' => 'address_default',
+        ))
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayConfigurable('view', TRUE);
 
-      $fields['tech_stack'] = BaseFieldDefinition::create('entity_reference')
-          ->setLabel(t('Technology Stacks'))
-          ->setDescription(t('Technology Stacks used at this company.'))
-          ->setSetting('target_type', 'taxonomy_term')
-          ->setSetting('handler', 'default:taxonomy_term')
-          ->setSetting('handler_settings', ['target_bundles' => ['tech_stack' => 'tech_stack']])
-          ->setDisplayOptions('view', [
-              'label'  => 'hidden',
-              'type'   => 'tech_stack', //unsure
-              'weight' => 0,
-          ])
-          ->setDisplayOptions('form', array(
-              'type'     => 'entity_reference_autocomplete',
-              'weight'   => 5,
-              'settings' => array(
-                  'match_operator'    => 'CONTAINS',
-                  'size'              => '60',
-                  'autocomplete_type' => 'tech_stack', //unsure
-                  'placeholder'       => '',
-              ),
-          ))
-          ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE);
+    $fields['tech_stack'] = BaseFieldDefinition::create('entity_reference')
+        ->setLabel(t('Technology Stacks'))
+        ->setDescription(t('Technology Stacks used at this company.'))
+        ->setSetting('target_type', 'taxonomy_term')
+        ->setSetting('handler', 'default:taxonomy_term')
+        ->setSetting('handler_settings', ['target_bundles' => ['tech_stack' => 'tech_stack']])
+        ->setDisplayOptions('view', [
+            'label'  => 'hidden',
+            'type'   => 'tech_stack',
+            'weight' => 0,
+        ])
+        ->setDisplayOptions('form', array(
+            'type'     => 'entity_reference_autocomplete',
+            'weight'   => 5,
+            'settings' => array(
+                'match_operator'    => 'CONTAINS',
+                'size'              => '60',
+                'autocomplete_type' => 'tech_stack',
+                'placeholder'       => '',
+            ),
+        ))
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayConfigurable('view', TRUE);
 
-      $fields['industry'] = BaseFieldDefinition::create('entity_reference')
-          ->setLabel(t('Industry'))
-          ->setDescription(t('Industry of the company.'))
-          ->setSetting('target_type', 'taxonomy_term')
-          ->setSetting('handler', 'default:taxonomy_term')
-          ->setSetting('handler_settings', ['target_bundles' => ['industry' => 'industry']])
-          ->setDisplayOptions('view', [
-              'label'  => 'hidden',
-              'type'   => 'industry', //unsure
-              'weight' => 0,
-          ])
-          ->setDisplayOptions('form', array(
-              'type'     => 'entity_reference_autocomplete',
-              'weight'   => 5,
-              'settings' => array(
-                  'match_operator'    => 'CONTAINS',
-                  'size'              => '60',
-                  'autocomplete_type' => 'industry', //unsure
-                  'placeholder'       => '',
-              ),
-          ))
-          ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE);
+    $fields['industry'] = BaseFieldDefinition::create('entity_reference')
+        ->setLabel(t('Industry'))
+        ->setDescription(t('Industry of the company.'))
+        ->setSetting('target_type', 'taxonomy_term')
+        ->setSetting('handler', 'default:taxonomy_term')
+        ->setSetting('handler_settings', ['target_bundles' => ['industry' => 'industry']])
+        ->setDisplayOptions('view', [
+            'label'  => 'hidden',
+            'type'   => 'industry',
+            'weight' => 0,
+        ])
+        ->setDisplayOptions('form', array(
+            'type'     => 'entity_reference_autocomplete',
+            'weight'   => 5,
+            'settings' => array(
+                'match_operator'    => 'CONTAINS',
+                'size'              => '60',
+                'autocomplete_type' => 'industry',
+                'placeholder'       => '',
+            ),
+        ))
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayConfigurable('view', TRUE);
+
+    $fields['url'] = BaseFieldDefinition::create('uri')
+      ->setLabel(t('Crelate Link'))
+      ->setDescription(t('The crelate.com link back to the account default display page.'))
+      ->setSetting('max_length', 2048)
+      ->setSetting('case_sensitive', TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
   }

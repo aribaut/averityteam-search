@@ -114,6 +114,10 @@ interface AccountEntityInterface extends ContentEntityInterface, RevisionLogInte
   public function setRevisionUserId($uid);
 
   /**
+   * Custom getters and setters for the Account interface.
+   */
+
+  /**
    * Gets the crelate ID of the Account entity.
    *
    * @return string
@@ -154,7 +158,7 @@ interface AccountEntityInterface extends ContentEntityInterface, RevisionLogInte
    * @param int $timestamp
    * The UNIX timestamp of when this revision was created.
    *
-   * @return \Drupal\accounts\Entity\AccountEntityInterface
+   * @return \Drupal\address\AddressInterface
    *   The called Account entity entity.
    */
   public function setInterviewedLast($timestamp);
@@ -162,19 +166,22 @@ interface AccountEntityInterface extends ContentEntityInterface, RevisionLogInte
   /**
    * Gets the address of the Account entity.
    *
-   * @todo find out the data structure for this field. Install address module?
-   * @return int
-   *   The address of the account entity.
+   * @todo find out the data structure for this field...
+   * @return \Drupal\address\AddressInterface
+   *   The address field values of the account entity.
    */
-//  public function getAddress();
+  public function getAddress();
 
   /**
    * Sets the address of the Account entity.
    *
+   * @param int $address
+   * The address field values for the Account entity.
+   *
    * @return \Drupal\accounts\Entity\AccountEntityInterface
    *   The called Account entity entity.
    */
-//  public function setAddress($address);
+  public function setAddress($address);
 
   /**
    * Gets the tech stack of the Account entity.
