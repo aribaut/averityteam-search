@@ -5,4 +5,4 @@ source_type: CSV files
 dependencies:
   enforced:
     module:
-    - migrate_crelate
+      - migrate_crelate

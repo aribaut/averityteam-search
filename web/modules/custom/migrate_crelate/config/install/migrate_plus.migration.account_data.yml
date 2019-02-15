@@ -59,7 +59,7 @@ source:
     Name: Account name.
     ModifiedOn: Date of last modification for the account.
     CreatedOn: Creation date for the account.
-    Description: General description of the company services and industry.
+    ###Description: General description of the company services and industry.
   # Static values for the migration.
   #
   # We can assign hard-coded values to certain properties using constants.
@@ -72,13 +72,13 @@ source:
 destination:
   # We want to import data from a CSV file, but how do we save it?
   # This plugin will be responsible for storing the records read during
-  # the migration in to nodes. We can also store them as other entities
-  # like taxonomy terms, etc. But in this case we want nodes.
-  plugin: 'entity:account'
-  # We specify the default node type as "program" because
-  # we will only be importing nodes of type "program" in this
+  # the migration in to Account entities. We can also store them as other entities
+  # like taxonomy terms, etc. But in this case we want Account.
+  plugin: entity:account_entity
+  # We specify the entity type as "account" because
+  # we will only be importing entities of type "account" in this
   # migration.
-  ##default_bundle: N/A!
+  ##default_bundle: N/A!?
 # Mapping.
 #
 # We can create simple mappings without any changes to
@@ -86,8 +86,24 @@ destination:
 # plugins before the processed value is assigned to the
 # destination.
 process:
-  created: CreatedOn
-  changed: ModifiedOn
+  # Name field
+  name: Name
+  # Created field
+  created:
+    plugin: format_date
+    from_format: 'm/d/Y h:i:s A'
+    to_format: 'U'
+    source: CreatedOn
+    settings:
+      validate_format: false
+  # Modified field
+  changed:
+    plugin: format_date
+    from_format: 'm/d/Y h:i:s A'
+    to_format: 'U'
+    source: ModifiedOn
+    settings:
+      validate_format: false
   # Here, we make a direct assignment of the "Title" column
   # as the node title. Not specifying a plugin name results in
   # the usage of the plugin "get" which simply copies the source
@@ -99,7 +115,7 @@ process:
   # "constants/NAME".
   #
   # The below segnment makes the imported "program" nodes non-sticky.
-  signed_agreement: constants/bool_0
+  signed_agreement: {}
   # Similarly, we can define a default user for the imported nodes.
   user_id: constants/uid_root
   # Some fields have multiple properties! For example, the "body" field
@@ -196,15 +212,15 @@ process:
   # For the "Tags" of the program, we need to associate taxonomy terms (tags)
   # generated during the migration "term_tags". For this, we import all tags
   # using the "term_tags" migration in migrate_plus.migration.term_tags.yml.
-  tech_stack:
+  ###tech_stack:
   # First we convert the multiple tag values into an array of tag names
   # using the explode plugin which simply explodes/splits a string by a given
   # delimiter. In our case, we split the text by ", " to get rid of the
   # spaces after the commas at once.
-  -
-    plugin: explode
-    delimiter: ', '
-    source: Tags # ???
+  ###-
+    ###plugin: explode
+    ###delimiter: ', '
+    ###source: Tags # ???
   # Once the tag names are converted to arrays, we pass the term names
   # through the "migration" plugin. This easy-to-use plugin does the grand
   # task of looking up the terms we imported during the "term_tags"
@@ -219,9 +235,9 @@ process:
   # data source for the migration, one would have to write their own
   # "process" plugin to explode the terms and translate the term names into
   # their corresponding term IDs.
-  -
-    plugin: migration
-    migration: account_tags
+  ###-
+    ###plugin: migration
+    ###migration: account_tags
 # With the migration_dependencies, as the name suggests, we can specify
 # if this migration requires some other migrations to be run first.
 #
@@ -233,14 +249,14 @@ process:
 # had to specify a dependency here.
 #
 # In our case, we need to import tags first so that we can associate them
-# to the academic programs.
+# to the account entities.
 migration_dependencies:
-  optional:
+  required:
   - crelate_tags
 # We specify that this migration depends on the c11n_migrate module.
 # Based on this dependency, this migration will be removed when the
-# c11n_migrate module is uninstalled.
+# migrate_crelate module is uninstalled.
 dependencies:
   enforced:
     module:
-    - migrate_crelate
+      - migrate_crelate
