@@ -1,0 +1,38 @@
+# Migration file for flagging "signed agreement" in account entities.
+#
+# Detailed explanations for various elements of a migration
+# YAML have been provided in migrate_plus.migration.account_data.yml
+
+id: signed_agreement
+label: Imports Signed Agreement Account status.
+migration_group: crelate_basic
+migration_tags:
+  - signed_agreement
+# Source.
+source:
+  plugin: csv
+  path: 'public://import/crelate/_combinedTagsAccountsSignedFee.csv'
+  header_row_count: 1
+  # Unique Crelate ID.
+  keys:
+    - AccountId
+  # Source field definitions.
+  fields:
+    TagRelId: Unique Crelate Tag Relationship ID.
+    TagName: The tag name.
+    TagId: The unique Tag ID.
+    TagCat: The Tag category (Skills)
+    AccountId: Crelate unique ID for the related account entity.
+    TargetEntityType: The Target entity type (Accounts).
+  # Destination.
+destination:
+  plugin: entity:account_entity
+# Mappings.
+process:
+# Field to populate
+  signed_agreement: TagName
+# Dependencies.
+dependencies:
+  enforced:
+    module:
+      - migrate_crelate
