@@ -1,0 +1,148 @@
+# Migration file for creating "account" entities from CSV.
+#
+# This file contains much of the information which we
+# used to specify in the "Migration" class in Drupal 7.
+# But why write code if you can write YAML?
+# This is how we declare a Migration the Drupal 8 way.
+
+# Migration ID.
+#
+# Usually the ID indicates what we are trying to migrate.
+# In our case, we are migrating nodes of type "program".
+id: account_api
+# Human-readable name of the migration for the UI.
+label: Import Accounts from Crelate.com API
+# Migration group.
+#
+# Migration groups allow us to put related migrations under one
+# umbrella so that we can execute or reference them together.
+migration_group: crelate_api
+# Migration tags.
+#
+# Migration tags help us group migrations using tags. In our
+# example, we tag all migrations with an "academic program"
+# tag. That way, we can run all academic-program-related migrations
+# using one command.
+migration_tags:
+- entity_api
+- accounts_api
+# Source.
+#
+# Under the source, we define the key "plugin" and other
+# configurations specific to the plugin.
+source:
+  plugin: url
+  # Specifies the http fetcher plugin.
+  data_fetcher_plugin: http
+  # Specifies the JSON parser plugin.
+  data_parser_plugin: json
+  authentication:
+    plugin: basic
+    api_key: 'f7290a79983f49c7aa1c6056c7782193'
+  headers:
+    Accept: application/json
+  urls: 'https://app.crelate.com/api/pub/v1/companies/recent?modified=1000000000&api_key=f7290a79983f49c7aa1c6056c7782193&take=500'
+  item_selector: Results
+  # Definitions for fields available in the source.
+  #
+  # This is an optional configuration but it makes the UI more
+  # explanatory. It is a set of key-value pairs where the key
+  # is the property name and the value is a string describing what
+  # the property is all about.
+  fields:
+    -
+      name: CreatedOn
+      label: 'Created On'
+      selector: CreatedOn
+    -
+      name: ModifieddOn
+      label: 'Modified On'
+      selector: ModifiedOn
+    -
+      name: Name
+      label: 'Name'
+      selector: Name
+    -
+      name: Id
+      label: 'ID'
+      selector: Id
+  ids:
+    Id:
+      type: string
+  # cleaner way to call constants
+  constants:
+    bool_0: 0
+    bool_1: 1
+    uid_root: 1
+destination:
+  # We want to import data from a CSV file, but how do we save it?
+  # This plugin will be responsible for storing the records read during
+  # the migration in to Account entities. We can also store them as other entities
+  # like taxonomy terms, etc. But in this case we want Account.
+  plugin: entity:account_entity
+  # We specify the entity type as "account" because
+  # we will only be importing entities of type "account" in this
+  # migration.
+  ##default_bundle: N/A!?
+# Mapping.
+#
+# We can create simple mappings without any changes to
+# source data or we can pass the source data through one or more
+# plugins before the processed value is assigned to the
+# destination.
+process:
+  # Name field
+  name:
+    - # Prevent entire row from being ignored if value is empty
+      plugin: skip_on_empty
+      method: row
+      source: Name
+  # Created field
+  created:
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s+'
+    to_format: 'U'
+    source: CreatedOn
+    settings:
+      validate_format: false
+  # Modified field
+  changed:
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s+'
+    to_format: 'U'
+    source: ModifiedOn
+    settings:
+      validate_format: false
+  # Here, we make a direct assignment of the "Title" column
+  # as the node title. Not specifying a plugin name results in
+  # the usage of the plugin "get" which simply copies the source
+  # property value to the destination property.
+  crelate_id: Id
+  # There are certain destination fields which do not have
+  # corresponding source fields. for these, we defined constants
+  # in the "source" parameter. We can refer to them here as
+  # "constants/NAME".
+  #
+  # The below segnment makes the imported "program" nodes non-sticky.
+  #signed_agreement:
+    #plugin: migration_lookup
+    #migration: signed_agreement
+    #source: AccountId
+    #no_stub: true
+  # Similarly, we can define a default user for the imported nodes.
+  user_id: constants/uid_root
+  #tech_stack:
+    #plugin: migration_lookup
+    #migration: skills
+migration_dependencies: {  }
+#migration_dependencies:
+#  optional:
+#    - signed_agreement
+#    - skills
+# We specify that this migration depends on the migrate_crelate module.
+# Based on this dependency, this migration will be removed when the
+# migrate_crelate module is uninstalled.
+dependencies:
+  enforced:
+    module:
+      - migrate_crelate
