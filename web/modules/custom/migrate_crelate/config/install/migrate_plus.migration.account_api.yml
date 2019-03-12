@@ -41,7 +41,7 @@ source:
     api_key: 'f7290a79983f49c7aa1c6056c7782193'
   headers:
     Accept: application/json
-  urls: 'https://app.crelate.com/api/pub/v1/companies/recent?modified=1000000000&api_key=f7290a79983f49c7aa1c6056c7782193&take=500'
+  urls: 'https://app.crelate.com/api/pub/v1/companies/recent?modified=1000000000&api_key=f7290a79983f49c7aa1c6056c7782193&take=5'
   item_selector: Results
   # Definitions for fields available in the source.
   #
@@ -66,6 +66,10 @@ source:
       name: Id
       label: 'ID'
       selector: Id
+    -
+      name: Default
+      label: 'Signed Fee Agreement'
+      selector: Tags/Default
   ids:
     Id:
       type: string
@@ -102,6 +106,7 @@ process:
     plugin: format_date
     from_format: 'Y-m-d\TH:i:s+'
     to_format: 'U'
+    timezone: 'UTC'
     source: CreatedOn
     settings:
       validate_format: false
@@ -110,6 +115,7 @@ process:
     plugin: format_date
     from_format: 'Y-m-d\TH:i:s+'
     to_format: 'U'
+    timezone: 'UTC'
     source: ModifiedOn
     settings:
       validate_format: false
@@ -123,7 +129,7 @@ process:
   # in the "source" parameter. We can refer to them here as
   # "constants/NAME".
   #
-  # The below segnment makes the imported "program" nodes non-sticky.
+  # The below segment makes the imported "program" nodes non-sticky.
   #signed_agreement:
     #plugin: migration_lookup
     #migration: signed_agreement
@@ -131,6 +137,13 @@ process:
     #no_stub: true
   # Similarly, we can define a default user for the imported nodes.
   user_id: constants/uid_root
+  # Signed Fee Agreement
+  signed_agreement:
+    plugin: static_map
+    source: Default
+    map:
+      'Signed Fee Agreement': 1
+    default_value: 0
   #tech_stack:
     #plugin: migration_lookup
     #migration: skills
