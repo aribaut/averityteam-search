@@ -406,7 +406,7 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
         ->setLabel(t('Signed Agreement'))
         ->setDescription(t('Indicates whether the Account has a signed agreement with Averity.'))
         ->setRevisionable(TRUE)
-        ->setDefaultValue(TRUE)
+        ->setDefaultValue(FALSE)
         ->setDisplayOptions('form', [
             'type' => 'boolean_checkbox',
             'weight' => -3,
