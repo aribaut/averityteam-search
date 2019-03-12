@@ -70,6 +70,10 @@ source:
       name: Default
       label: 'Signed Fee Agreement'
       selector: Tags/Default
+    -
+      name: Industry
+      label: 'Industry'
+      selector: Tags/Industry
   ids:
     Id:
       type: string
@@ -119,23 +123,8 @@ process:
     source: ModifiedOn
     settings:
       validate_format: false
-  # Here, we make a direct assignment of the "Title" column
-  # as the node title. Not specifying a plugin name results in
-  # the usage of the plugin "get" which simply copies the source
-  # property value to the destination property.
+  # Here, we make a direct assignment the Id property
   crelate_id: Id
-  # There are certain destination fields which do not have
-  # corresponding source fields. for these, we defined constants
-  # in the "source" parameter. We can refer to them here as
-  # "constants/NAME".
-  #
-  # The below segment makes the imported "program" nodes non-sticky.
-  #signed_agreement:
-    #plugin: migration_lookup
-    #migration: signed_agreement
-    #source: AccountId
-    #no_stub: true
-  # Similarly, we can define a default user for the imported nodes.
   user_id: constants/uid_root
   # Signed Fee Agreement
   signed_agreement:
@@ -144,9 +133,18 @@ process:
     map:
       'Signed Fee Agreement': 1
     default_value: 0
-  #tech_stack:
-    #plugin: migration_lookup
-    #migration: skills
+  # Industry
+  industry:
+    plugin: entity_generate
+    source: Industry
+    value_key: name
+    bundle_key: vid
+    # Bundle machine name
+    bundle: industry
+    # Type of entity
+    entity_type: taxonomy_term
+    # Set to true to ignore case on lookup
+    ignore_case: true
 migration_dependencies: {  }
 #migration_dependencies:
 #  optional:
