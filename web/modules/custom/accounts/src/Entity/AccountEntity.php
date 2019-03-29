@@ -2,6 +2,7 @@
 
 namespace Drupal\accounts\Entity;
 
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
@@ -20,7 +21,7 @@ use Drupal\user\UserInterface;
  *   label = @Translation("Account entity"),
  *   handlers = {
  *     "storage" = "Drupal\accounts\AccountEntityStorage",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
+ *     "view_builder" = "Drupal\accounts\AccountEntityViewBuilder",
  *     "list_builder" = "Drupal\accounts\AccountEntityListBuilder",
  *     "views_data" = "Drupal\accounts\Entity\AccountEntityViewsData",
  *     "translation" = "Drupal\accounts\AccountEntityTranslationHandler",
@@ -254,30 +255,54 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
    * {@inheritdoc}
    */
   public function getTechStack() {
-      return $this->get('tech_stack')->value;
+    return $this->get('tech_stack')->referencedEntities();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setTechStack($tech_stack) {
-      $this->set('tech_stack', $tech_stack);
-      return $this;
+  public function setTechStack($tech_item) {
+    $field_items = $this->get('tech_stack');
+
+    $exists = FALSE;
+    foreach ($field_items as $field_item) {
+      if ($field_item->target_id === $tech_item->id()) {
+        $exists = TRUE;
+      }
+    }
+
+    if (!$exists) {
+      $field_items->appendItem($tech_item);
+    }
+
+    return $this->set('tech_stack', $field_items);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getIndustry() {
-      return $this->get('industry')->value;
+    return $this->get('industry')->referencedEntities();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setIndustry($industry) {
-      $this->set('industry', $industry);
-      return $this;
+  public function setIndustry($industry_item) {
+    $field_items = $this->get('industry');
+
+    $exists = FALSE;
+    foreach ($field_items as $field_item) {
+      if ($field_item->target_id === $industry_item->id()) {
+        $exists = TRUE;
+      }
+    }
+
+    if (!$exists) {
+      $field_items->appendItem($industry_item);
+    }
+
+    return $this->set('industry', $field_items);
   }
 
   /**
@@ -406,7 +431,7 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
         ->setLabel(t('Signed Agreement'))
         ->setDescription(t('Indicates whether the Account has a signed agreement with Averity.'))
         ->setRevisionable(TRUE)
-        ->setDefaultValue(TRUE)
+        ->setDefaultValue(FALSE)
         ->setDisplayOptions('form', [
             'type' => 'boolean_checkbox',
             'weight' => -3,
@@ -458,6 +483,8 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
         ->setSetting('target_type', 'taxonomy_term')
         ->setSetting('handler', 'default:taxonomy_term')
         ->setSetting('handler_settings', ['target_bundles' => ['tech_stack' => 'tech_stack']])
+        // We want unlimited values for this field.
+        ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
         ->setDisplayOptions('view', [
             'label'  => 'hidden',
             'type'   => 'tech_stack',
@@ -482,6 +509,8 @@ class AccountEntity extends RevisionableContentEntityBase implements AccountEnti
         ->setSetting('target_type', 'taxonomy_term')
         ->setSetting('handler', 'default:taxonomy_term')
         ->setSetting('handler_settings', ['target_bundles' => ['industry' => 'industry']])
+        // We want unlimited values for this field.
+        ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
         ->setDisplayOptions('view', [
             'label'  => 'hidden',
             'type'   => 'industry',

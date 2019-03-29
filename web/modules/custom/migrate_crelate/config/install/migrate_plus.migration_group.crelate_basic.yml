@@ -1,0 +1,8 @@
+id: crelate_basic
+label: Basic data migration from Crelate.com to ASP
+description: Migration of basic Crelate.com data including accounts contacts addresses and associated tags.
+source_type: CSV files
+dependencies:
+  enforced:
+    module:
+      - migrate_crelate

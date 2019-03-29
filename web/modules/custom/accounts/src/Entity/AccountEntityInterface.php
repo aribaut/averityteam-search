@@ -6,6 +6,7 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\user\EntityOwnerInterface;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Provides an interface for defining Account entity entities.
@@ -186,15 +187,15 @@ interface AccountEntityInterface extends ContentEntityInterface, RevisionLogInte
   /**
    * Gets the tech stack of the Account entity.
    *
-   * @return int
-   * The vocabulary ID of the taxonomy term.
+   * @return \Drupal\Core\Entity\EntityInterface
+   * An array of Entities for the taxonomy term(s).
    */
   public function getTechStack();
 
   /**
    * Sets the tech stack of the Account entity.
    *
-   * @param int $tech_stack
+   * @param TermInterface $tech_stack
    * The vocabulary ID of the taxonomy term.
    *
    * @return \Drupal\accounts\Entity\AccountEntityInterface
@@ -203,17 +204,17 @@ interface AccountEntityInterface extends ContentEntityInterface, RevisionLogInte
   public function setTechStack($tech_stack);
 
   /**
-   * Gets the tech stack of the Account entity.
+   * Gets the industry entities of the Account entity.
    *
-   * @return int
-   * The vocabulary ID of the taxonomy term.
+   * @return \Drupal\Core\Entity\EntityInterface
+   * An array of Entities for the taxonomy term(s).
    */
   public function getIndustry();
 
   /**
    * Sets the tech stack of the Account entity.
    *
-   * @param int $industry
+   * @param TermInterface $industry
    * The vocabulary ID of the taxonomy term.
    *
    * @return \Drupal\accounts\Entity\AccountEntityInterface

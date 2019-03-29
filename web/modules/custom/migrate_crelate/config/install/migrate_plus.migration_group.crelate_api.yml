@@ -1,0 +1,8 @@
+id: crelate_api
+label: API data migration from Crelate.com to ASP
+description: Migration of Crelate.com API data including accounts contacts addresses and associated tags.
+source_type: API
+dependencies:
+  enforced:
+    module:
+      - migrate_crelate
