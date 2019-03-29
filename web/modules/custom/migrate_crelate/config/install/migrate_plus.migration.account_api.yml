@@ -41,7 +41,12 @@ source:
     api_key: 'f7290a79983f49c7aa1c6056c7782193'
   headers:
     Accept: application/json
-  urls: 'https://app.crelate.com/api/pub/v1/companies/recent?modified=1000000000&api_key=f7290a79983f49c7aa1c6056c7782193&take=5'
+  # Currently retrieves a maximum of 2,000 accounts. We need to find a better way to handle this!
+  urls:
+    - 'https://app.crelate.com/api/pub/v1/companies/recent?modified=1000000000&api_key=f7290a79983f49c7aa1c6056c7782193&take=500'
+    - 'https://app.crelate.com/api/pub/v1/companies/recent?modified=1000000000&api_key=f7290a79983f49c7aa1c6056c7782193&skip=500&take=500'
+    - 'https://app.crelate.com/api/pub/v1/companies/recent?modified=1000000000&api_key=f7290a79983f49c7aa1c6056c7782193&skip=1000&take=500'
+    - 'https://app.crelate.com/api/pub/v1/companies/recent?modified=1000000000&api_key=f7290a79983f49c7aa1c6056c7782193&skip=1500&take=500'
   item_selector: Results
   # Definitions for fields available in the source.
   #
@@ -71,6 +76,10 @@ source:
       label: 'Signed Fee Agreement'
       selector: Tags/Default
     -
+      name: Default
+      label: 'Technology Stack'
+      selector: Tags/Default
+    -
       name: Industry
       label: 'Industry'
       selector: Tags/Industry
@@ -79,9 +88,8 @@ source:
       type: string
   # cleaner way to call constants
   constants:
-    bool_0: 0
-    bool_1: 1
     uid_root: 1
+  track_changes: true
 destination:
   # We want to import data from a CSV file, but how do we save it?
   # This plugin will be responsible for storing the records read during
@@ -127,12 +135,20 @@ process:
   crelate_id: Id
   user_id: constants/uid_root
   # Signed Fee Agreement
+  # We are only interested in the 'Signed Fee Agreement' value. The other data will be imported into the tech_stack field.
   signed_agreement:
-    plugin: static_map
+    plugin: deepen # @todo: not working as intended. Need to be looke at again. Seek help on Slack
     source: Default
-    map:
-      'Signed Fee Agreement': 1
-    default_value: 0
+    field_taxonomy_term:
+      plugin: sub_process
+      source: '@signed_agreement'
+      process:
+        id:
+          plugin: static_map
+          source: value
+          map:
+            'Signed Fee Agreement': 1
+          default_value: 0
   # Industry
   industry:
     plugin: entity_generate
@@ -141,6 +157,26 @@ process:
     bundle_key: vid
     # Bundle machine name
     bundle: industry
+    # Type of entity
+    entity_type: taxonomy_term
+    # Set to true to ignore case on lookup
+    ignore_case: true
+  # Technology Stack
+  # Here we use a static map to filter out the 'Signed Fee Agreement' value from the Default source field.
+  # We are only interested in the other entries. Those generate the tech_stack vocabulary via the entity_generate plugin.
+  tech_stack:
+#    -
+#      plugin: skip_on_value
+#      method: process # we only skip the value, the remaining is processed and passed on to the following plugin.
+#      source: Default
+#      value: 'Signed Fee Agreement'
+#    -
+    plugin: entity_generate
+    source: Default
+    value_key: name
+    bundle_key: vid
+    # Bundle machine name
+    bundle: tech_stack
     # Type of entity
     entity_type: taxonomy_term
     # Set to true to ignore case on lookup

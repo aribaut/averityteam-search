@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "55c97289f0392c3434d71534d679c91c",
+    "content-hash": "f923c39705e4d5c7fa6d89b0f5481afe",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1358,6 +1358,71 @@
             }
         },
         {
+            "name": "drupal/bootstrap",
+            "version": "3.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/bootstrap",
+                "reference": "8.x-3.17"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/bootstrap-8.x-3.17.zip",
+                "reference": "8.x-3.17",
+                "shasum": "7fec8e6bc1435b97952844315035b36c2dbc07b2"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-theme",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-3.17",
+                    "datestamp": "1548102180",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Carver (markcarver)",
+                    "homepage": "https://www.drupal.org/u/markcarver",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "John McCormick (neardark)",
+                    "homepage": "https://www.drupal.org/u/neardark",
+                    "role": "Co-maintainer"
+                },
+                {
+                    "name": "Fabiano Sant'Ana (wundo)",
+                    "homepage": "https://www.drupal.org/u/wundo",
+                    "role": "Co-maintainer"
+                },
+                {
+                    "name": "wundo",
+                    "homepage": "https://www.drupal.org/user/25523"
+                }
+            ],
+            "description": "Built to use Bootstrap, a sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+            "homepage": "https://www.drupal.org/project/bootstrap",
+            "support": {
+                "source": "http://cgit.drupalcode.org/bootstrap",
+                "docs": "https://drupal-bootstrap.org",
+                "issues": "https://www.drupal.org/project/issues/bootstrap",
+                "irc": "irc://irc.freenode.org/drupal-bootstrap"
+            }
+        },
+        {
             "name": "drupal/console",
             "version": "1.8.0",
             "source": {
@@ -1851,6 +1916,116 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "time": "2019-02-08T12:21:40+00:00"
+        },
+        {
+            "name": "drupal/entity_update",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/entity_update",
+                "reference": "8.x-1.2-rc7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity_update-8.x-1.2-rc7.zip",
+                "reference": "8.x-1.2-rc7",
+                "shasum": "1da5f2de7c6adcda9eac8140b5406e588910d50b"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev",
+                    "dev-master": "1.2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.2-rc7",
+                    "datestamp": "1515696784",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL"
+            ],
+            "authors": [
+                {
+                    "name": "Nuwantha",
+                    "homepage": "https://www.drupal8.ovh",
+                    "role": "Admin"
+                }
+            ],
+            "description": "Update Drupal 8 Entity schema.",
+            "homepage": "https://www.drupal.org/project/entity_update",
+            "support": {
+                "source": "http://git.drupal.org/project/entity_update.git",
+                "issues": "https://www.drupal.org/project/issues/entity_update"
+            }
+        },
+        {
+            "name": "drupal/facets",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/facets",
+                "reference": "8.x-1.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/facets-8.x-1.3.zip",
+                "reference": "8.x-1.3",
+                "shasum": "2ca517094a34112e8168746123d337a25da6a227"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "require-dev": {
+                "drupal/search_api": "~1.5"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.3",
+                    "datestamp": "1551291083",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "See all contributors",
+                    "homepage": "https://www.drupal.org/node/2348769/committers"
+                },
+                {
+                    "name": "StryKaizer",
+                    "homepage": "https://www.drupal.org/user/462700"
+                },
+                {
+                    "name": "borisson_",
+                    "homepage": "https://www.drupal.org/user/2393360"
+                }
+            ],
+            "description": "The Facet module allows site builders to easily create and manage faceted search interfaces.",
+            "homepage": "https://www.drupal.org/project/facets",
+            "support": {
+                "source": "git://git.drupal.org/project/facets.git",
+                "issues": "https://www.drupal.org/project/issues/facets",
+                "irc": "irc://irc.freenode.org/drupal-search-api"
+            }
         },
         {
             "name": "drupal/migrate_devel",
@@ -6848,6 +7023,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2018-08-09T05:50:03+00:00"
         },
         {
