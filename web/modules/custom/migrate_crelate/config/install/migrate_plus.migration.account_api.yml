@@ -83,6 +83,10 @@ source:
       name: Industry
       label: 'Industry'
       selector: Tags/Industry
+    -
+      name: Tech Stack
+      label: 'Tech Stack'
+      selector: Tags/Tech Stack
   ids:
     Id:
       type: string
@@ -136,20 +140,19 @@ process:
   user_id: constants/uid_root
   # Signed Fee Agreement
   # We are only interested in the 'Signed Fee Agreement' value. The other data will be imported into the tech_stack field.
-  signed_agreement:
-    plugin: deepen # @todo: not working as intended. Need to be looke at again. Seek help on Slack
-    source: Default
-    field_taxonomy_term:
-      plugin: sub_process
-      source: '@signed_agreement'
-      process:
-        id:
-          plugin: static_map
-          source: value
-          map:
-            'Signed Fee Agreement': 1
-          default_value: 0
-  # Industry
+  #signed_agreement:
+  #  plugin: deepen # @todo: not working as intended. Need to be looked at again. Seek help on Slack
+  #  source: Default
+  #  field_taxonomy_term:
+  #    plugin: sub_process
+  #    source: '@signed_agreement'
+  #    process:
+  #      id:
+  #        plugin: static_map
+  #        source: value
+  #        map:
+  #          'Signed Fee Agreement': 1
+  #        default_value: 0
   industry:
     plugin: entity_generate
     source: Industry
@@ -172,7 +175,7 @@ process:
 #      value: 'Signed Fee Agreement'
 #    -
     plugin: entity_generate
-    source: Default
+    source: Tech Stack #was Default
     value_key: name
     bundle_key: vid
     # Bundle machine name
