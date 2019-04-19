@@ -9,3 +9,12 @@ h2.block-title {
 .navbar-brand {
   padding: 47px 15px;
 }
+
+.facets-widget-checkbox.facet-item__value {
+  font-weight: 500;
+  padding-left: 4px;
+}
+
+li.facet-item {
+  list-style-type: dash;
+}
