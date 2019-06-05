@@ -24,5 +24,3 @@
 # Ignore .env files as they are personal
 /.env
 
-# Ignore DBs
-/db
